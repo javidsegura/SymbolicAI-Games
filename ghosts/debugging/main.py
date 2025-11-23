@@ -98,7 +98,7 @@ class SimpleMinimaxAgent:
 
     def _minimax(self, game: GhostsGame, depth: int, is_maximizing: bool, alpha: int, beta: int) -> float:
         """
-        Recursive Minimax function (No Pruning).
+        Recursive Minimax function (Alpha-beta pruning).
         """
         # Base Case: Leaf node or Terminal State
         if depth == 0 or game.is_terminal():
@@ -114,9 +114,9 @@ class SimpleMinimaxAgent:
                 next_game = self._simulate_step(game, move)
                 eval_score = self._minimax(next_game, depth - 1, False, alpha, beta)
                 max_eval = max(max_eval, eval_score)
-                if eval_score >= beta:
-                    break
                 alpha = max(alpha, eval_score)
+                if eval_score >= beta: # Pruning
+                    break
             return max_eval
         else:
             min_eval = float('inf')
@@ -124,9 +124,9 @@ class SimpleMinimaxAgent:
                 next_game = self._simulate_step(game, move)
                 eval_score = self._minimax(next_game, depth - 1, True, alpha, beta)
                 min_eval = min(min_eval, eval_score)
+                beta = min(beta, eval_score)
                 if eval_score <= alpha:
                     break
-                beta = min(beta, eval_score)
             return min_eval
 
     def _evaluate_state(self, game: GhostsGame) -> float:
