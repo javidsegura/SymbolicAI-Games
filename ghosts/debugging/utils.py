@@ -140,6 +140,7 @@ def play_game(
     wins = 0
     losses = 0
     draws = 0
+    game_times = []
 
     while True:
         match_state = client.get_match_state(match_id)
@@ -151,6 +152,9 @@ def play_game(
             print(f"\n{'='*50}")
             print(f"🎮 GAME {game_num + 1}/{num_games}")
             print(f"{'='*50}\n")
+
+        # Start timing for this game
+        game_start_time = time.time()
 
         # Get initial game state and check player assignment
         game_state = client.get_game_state(match_id, game_num)
@@ -242,9 +246,14 @@ def play_game(
         game_state = client.get_game_state(match_id, game_num)
         game = game_class(game_state['state'], game_state['status'], game_state['player'], player)
         
+        # Calculate game duration
+        game_duration = time.time() - game_start_time
+        game_times.append(game_duration)
+        
         if verbose:
             game.print_board()
             print("=" * 40)
+            print(f"⏱️  Game duration: {game_duration:.2f} seconds")
 
         winner = game_state.get('winner', '-')
         if winner == '-':
@@ -277,7 +286,8 @@ def play_game(
         'total_games': num_games,
         'win_rate': wins / num_games if num_games > 0 else 0,
         'player': player,
-        'match_id': match_id
+        'match_id': match_id,
+        'game_times': game_times
     }
 
     return stats, all_results
