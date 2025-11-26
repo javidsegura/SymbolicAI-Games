@@ -8,7 +8,7 @@ AGENTS: List[Tuple[str, str]] = [
     ("Monte Carlo", "uno.agents.monte_carlo:monte_carlo_agent"),
     ("Priority Greedy", "uno.agents.priority_queue:priority_queue_agent"),
     ("IDDFS", "uno.agents.iddfs:iddfs_agent"),
-    ("Baseline Heuristic", "uno.my_agents:my_agent"),
+    ("Baseline Heuristic", "uno.agents.baseline_heuristic:baseline_heuristic"),
 ]
 
 

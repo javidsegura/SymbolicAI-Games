@@ -3,7 +3,7 @@ from typing import Dict
 from collections import Counter
 from uno.model import UnoGame
 
-def my_agent(game: UnoGame) -> Dict:
+def baseline_heuristic(game: UnoGame) -> Dict:
     """
     A simple but solid UNO AI.
 
